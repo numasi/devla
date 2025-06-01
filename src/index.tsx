@@ -8,19 +8,20 @@ import Layout from "./components/Layout.tsx";
 import PostPage from "./components/PostPage.tsx";
 import Err from "./components/Err.tsx";
 
+const renderPage = (page: JSX.Element, full: boolean = false) => <Layout {...{page, full}} />
+
 const app = new Elysia()
   .use(html())
   .use(staticPlugin({prefix: ''}))
   .get('/', async () => { 
     const posts = await fetchPosts()
     //console.log(JSON.parse(p.comment.json_metadata).tags))
-
-    const props = {
-      page: posts ? <PostPage { ...{posts} } /> : <Err message='Hey, but we have an error page, right?' />,
-      full: !posts
+    if (posts)
+      return renderPage( <PostPage { ...{posts} }/> )
+    else {
+      const message='Hey, but we have an error page, right?'
+      return renderPage(<Err {...{message}}/>, true)
     }
-    
-    return <Layout {...props} />
   })
   .listen(7000);
 

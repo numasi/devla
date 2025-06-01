@@ -2,7 +2,7 @@ import { Html } from '@elysiajs/html'
 import TPost from '../types/TPost'
 import Post from './Post'
 
-type PostPageProps = { 
+export type PostPageProps = { 
   posts: TPost[]
 }
 
